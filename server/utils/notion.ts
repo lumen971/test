@@ -81,8 +81,25 @@ export function notionClient(token: string) {
   return new Client({ auth: token, notionVersion: '2026-03-11' })
 }
 
+async function resolveDataSourceId(client: Client, id: string): Promise<string> {
+  try {
+    await client.dataSources.retrieve({ data_source_id: id })
+    return id
+  } catch (dataSourceError) {
+    try {
+      const database: any = await client.databases.retrieve({ database_id: id })
+      const dataSourceId = database.data_sources?.[0]?.id
+      if (!dataSourceId) throw new Error('Database does not contain a data source')
+      return dataSourceId
+    } catch {
+      throw dataSourceError
+    }
+  }
+}
+
 export async function getArticles(client: Client, dataSourceId: string): Promise<ArticleSummary[]> {
-  const pages = await listAll(client, dataSourceId, {
+  const resolvedId = await resolveDataSourceId(client, dataSourceId)
+  const pages = await listAll(client, resolvedId, {
     filter: { property: 'Status', status: { equals: 'Published' } },
     sorts: [{ property: 'Published At', direction: 'descending' }]
   })
@@ -90,7 +107,8 @@ export async function getArticles(client: Client, dataSourceId: string): Promise
 }
 
 export async function getArticle(client: Client, dataSourceId: string, slug: string): Promise<ArticleDetail | null> {
-  const pages = await listAll(client, dataSourceId, {
+  const resolvedId = await resolveDataSourceId(client, dataSourceId)
+  const pages = await listAll(client, resolvedId, {
     filter: { and: [
       { property: 'Status', status: { equals: 'Published' } },
       { property: 'Slug', rich_text: { equals: slug } }
@@ -110,7 +128,8 @@ export async function getArticle(client: Client, dataSourceId: string, slug: str
 }
 
 export async function getLatestSupporters(client: Client, dataSourceId: string): Promise<SupporterMonth | null> {
-  const pages = await listAll(client, dataSourceId, {
+  const resolvedId = await resolveDataSourceId(client, dataSourceId)
+  const pages = await listAll(client, resolvedId, {
     filter: { property: 'Published', checkbox: { equals: true } },
     sorts: [{ property: 'Month', direction: 'descending' }, { property: 'Order', direction: 'ascending' }]
   })
