@@ -21,7 +21,7 @@ useSeoMeta({
       </NuxtLink>
       <button class="menu-toggle" :aria-expanded="menuOpen" aria-label="切換導覽選單" @click="menuOpen = !menuOpen">☰</button>
       <nav :class="['site-nav', { open: menuOpen }]" aria-label="主要導覽">
-        <NuxtLink to="/#about">關於</NuxtLink>
+        <NuxtLink to="/about">關於</NuxtLink>
         <NuxtLink to="/#services">靈性服務</NuxtLink>
         <NuxtLink to="/articles">靈感札記</NuxtLink>
         <NuxtLink to="/supporters">星光名錄</NuxtLink>
