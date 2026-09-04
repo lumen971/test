@@ -1,6 +1,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-07-15',
   devtools: { enabled: true },
+  nitro: { preset: 'vercel' },
   css: ['~/assets/css/main.css', '~/assets/css/hero-background.css', '~/assets/css/about-page.css', '~/assets/css/notion-content.css'],
   runtimeConfig: {
     notionToken: '',
