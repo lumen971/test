@@ -1,0 +1,12 @@
+.profile-image {
+  background:
+    radial-gradient(circle at 50% 56%, rgba(96, 53, 120, .28), transparent 56%),
+    url('/images/about-character.png') center / contain no-repeat;
+  filter: drop-shadow(0 24px 34px rgba(2, 8, 16, .32));
+}
+
+@media (max-width: 520px) {
+  .profile-image {
+    background-position: center;
+  }
+}

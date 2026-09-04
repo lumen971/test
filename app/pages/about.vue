@@ -27,9 +27,7 @@ const journey = [
 <template>
   <div class="about-page">
     <section class="profile-hero">
-      <div class="profile-image" role="img" aria-label="花火流明暫用角色形象">
-        <span>暫用形象</span>
-      </div>
+      <div class="profile-image" role="img" aria-label="花火流明角色形象"></div>
       <div class="profile-intro">
         <p class="eyebrow">PROFILE · WITCH LUMEN</p>
         <h1>花火流明</h1>
