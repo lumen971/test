@@ -15,7 +15,6 @@ const { data: supporters } = await useFetch<SupporterMonth>('/api/supporters/lat
         <div class="hero-actions"><a class="button primary" href="https://t.co/l2cqY5jxsU">開始能量檢測</a><NuxtLink class="button ghost" to="/articles">閱讀靈感札記</NuxtLink></div>
       </div>
       <div class="hero-orbit" aria-hidden="true"><span>☾</span></div>
-      <p class="image-note">暫用形象視覺 · 正式立繪可直接替換</p>
     </section>
 
     <section id="about" class="section about-grid">
