@@ -5,7 +5,14 @@ type NotionPage = Record<string, any>
 
 function text(property: any): string {
   const values = property?.title || property?.rich_text || []
-  return values.map((item: any) => item.plain_text || item.text?.content || '').join('').trim()
+  const richTextValue = values.map((item: any) => item.plain_text || item.text?.content || '').join('').trim()
+  return richTextValue || property?.select?.name?.trim() || property?.formula?.string?.trim() || ''
+}
+
+function propertyByName(properties: Record<string, any>, name: string): any {
+  const expectedName = name.trim().toLocaleLowerCase('en-US')
+  const matchedName = Object.keys(properties).find(key => key.trim().toLocaleLowerCase('en-US') === expectedName)
+  return matchedName ? properties[matchedName] : undefined
 }
 
 function richText(values: any[] = []): RichTextSpan[] {
@@ -192,7 +199,7 @@ function mapSupporterProfile(page: NotionPage): SupporterProfile {
     lastSupported: rollupDate(properties['Last Supported']),
     currentTier: properties['Current Tier']?.select?.name || '流明微光',
     highestTier: properties['Highest Tier']?.select?.name || undefined,
-    emoji: text(properties.Emoji) || undefined,
+    emoji: text(propertyByName(properties, 'Emoji')) || undefined,
     message: text(properties.Message) || undefined,
     badge: properties.Badge?.select?.name || earnedBadge(totalMonths),
     featured: properties.Featured?.checkbox || false,
