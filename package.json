@@ -9,6 +9,9 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@fortawesome/vue-fontawesome": "^3.3.3",
     "@notionhq/client": "^5.1.0",
     "nuxt": "^4.0.0",
     "zod": "^4.0.0"

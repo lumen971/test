@@ -1,7 +1,19 @@
 <script setup lang="ts">
+import { config } from '@fortawesome/fontawesome-svg-core'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { faStar, fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import type { SupporterMonth, SupporterOverview, SupporterProfile } from '../../../shared/types/content'
 
 useSeoMeta({ title: '星光名錄', description: '感謝每一位支持花火流明持續創作與提供靈性服務的贊助人，並收藏一路相伴的星光足跡。' })
+
+config.autoAddCss = false
+const freeSolidIcons = new Map<string, IconDefinition>(Object.values(fas).map(icon => [icon.iconName, icon]))
+
+function supporterIcon(iconName?: string): IconDefinition {
+  const normalizedName = (iconName || '').trim().toLowerCase().replace(/^fa-/, '')
+  return freeSolidIcons.get(normalizedName) || faStar
+}
 
 const { data: latest } = await useFetch<SupporterMonth>('/api/supporters/latest')
 const { data: overview } = await useFetch<SupporterOverview>('/api/supporters/overview')
@@ -76,7 +88,7 @@ async function loadHistory() {
       <div class="supporter-card-grid">
         <article v-for="profile in overview.profiles" :key="profile.id" :class="['supporter-card', `is-${cardLevel(profile)}`]">
           <span class="card-constellation" aria-hidden="true">✦ · ✧ · ☽</span>
-          <div class="supporter-card-top"><span class="supporter-emoji">{{ profile.emoji || '✦' }}</span><span class="supporter-badge">{{ profile.badge }}</span></div>
+          <div class="supporter-card-top"><span class="supporter-emoji" aria-hidden="true"><FontAwesomeIcon :icon="supporterIcon(profile.emoji)" /></span><span class="supporter-badge">{{ profile.badge }}</span></div>
           <h3>{{ profile.name }}</h3>
           <p v-if="profile.message" class="supporter-message">「{{ profile.message }}」</p>
           <p v-else class="supporter-message">謝謝你，成為這段旅程中持續閃耀的光。</p>
