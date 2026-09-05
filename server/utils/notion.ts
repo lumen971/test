@@ -37,6 +37,7 @@ function dateLabel(value?: string): string {
 
 function mapSummary(page: NotionPage): ArticleSummary {
   const properties = page.properties || {}
+  const coverProperty = propertyByName(properties, 'Cover')
   return {
     id: page.id,
     title: text(properties.Title),
@@ -44,7 +45,7 @@ function mapSummary(page: NotionPage): ArticleSummary {
     excerpt: text(properties.Excerpt),
     category: properties.Category?.select?.name || '靈性札記',
     publishedAt: dateLabel(properties['Published At']?.date?.start || page.created_time),
-    cover: fileUrl(properties.Cover) || page.cover?.external?.url || page.cover?.file?.url
+    cover: coverProperty?.url || fileUrl(coverProperty) || page.cover?.external?.url || page.cover?.file?.url
   }
 }
 
