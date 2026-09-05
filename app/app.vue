@@ -23,6 +23,7 @@ useSeoMeta({
         <NuxtLink to="/about">關於</NuxtLink>
         <NuxtLink to="/#services">靈性服務</NuxtLink>
         <NuxtLink to="/articles">靈感札記</NuxtLink>
+        <NuxtLink to="/events">過往活動</NuxtLink>
         <NuxtLink to="/supporters">星光名錄</NuxtLink>
         <a class="nav-cta" href="https://t.co/l2cqY5jxsU" target="_blank" rel="noopener">預約諮詢</a>
       </nav>
