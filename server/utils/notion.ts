@@ -172,6 +172,7 @@ function rollupNumber(property: any): number { return property?.rollup?.number ?
 function rollupDate(property: any): string | undefined { return property?.rollup?.date?.start || property?.date?.start || undefined }
 
 function earnedBadge(months: number): string {
+  if (months >= 48) return '傳說花火'
   if (months >= 36) return '不滅花火'
   if (months >= 24) return '永續星芒'
   if (months >= 12) return '一周年星辰'

@@ -27,10 +27,21 @@ const monthOptions = computed(() => {
 })
 
 function cardLevel(profile: SupporterProfile) {
+  if (profile.totalMonths >= 48) return 'legendary'
   if (profile.totalMonths >= 36) return 'eternal'
   if (profile.totalMonths >= 24) return 'radiant'
   if (profile.totalMonths >= 12) return 'anniversary'
-  return 'steady'
+  if (profile.totalMonths >= 6) return 'steady'
+  return 'ember'
+}
+
+function milestone(profile: SupporterProfile) {
+  const months = Math.max(0, profile.totalMonths)
+  const thresholds = [6, 12, 24, 36, 48]
+  const next = thresholds.find(value => value > months)
+  if (!next) return { label: '傳說花火・長久相伴', progress: 100 }
+  const previous = [...thresholds].reverse().find(value => value <= months) || 0
+  return { label: `距離下一階還有 ${next - months} 個月`, progress: Math.round(((months - previous) / (next - previous)) * 100) }
 }
 
 async function loadHistory() {
@@ -64,10 +75,13 @@ async function loadHistory() {
       </div>
       <div class="supporter-card-grid">
         <article v-for="profile in overview.profiles" :key="profile.id" :class="['supporter-card', `is-${cardLevel(profile)}`]">
+          <span class="card-constellation" aria-hidden="true">✦ · ✧ · ☽</span>
           <div class="supporter-card-top"><span class="supporter-emoji">{{ profile.emoji || '✦' }}</span><span class="supporter-badge">{{ profile.badge }}</span></div>
           <h3>{{ profile.name }}</h3>
           <p v-if="profile.message" class="supporter-message">「{{ profile.message }}」</p>
+          <p v-else class="supporter-message">謝謝你，成為這段旅程中持續閃耀的光。</p>
           <div class="supporter-meta"><span>累積支持 <b>{{ profile.totalMonths }}</b> 個月</span><span>{{ profile.currentTier }}</span></div>
+          <div class="milestone"><div><span>{{ milestone(profile).label }}</span><span>{{ milestone(profile).progress }}%</span></div><div class="milestone-track"><span :style="{ width: `${milestone(profile).progress}%` }"></span></div></div>
         </article>
       </div>
     </section>
