@@ -1,7 +1,29 @@
 <script setup lang="ts">
 const route = useRoute()
 const menuOpen = ref(false)
+const scrollY = ref(0)
+const showScrollTop = computed(() => scrollY.value > 520)
+const showHomeMagic = computed(() => route.path === '/' && scrollY.value > 100)
+let scrollFrame = 0
+
+function updateScroll() {
+  if (scrollFrame) return
+  scrollFrame = window.requestAnimationFrame(() => {
+    scrollY.value = window.scrollY
+    document.documentElement.style.setProperty('--page-scroll', `${Math.min(window.scrollY, 1000)}px`)
+    document.documentElement.style.setProperty('--parallax-offset', `${Math.min(window.scrollY * .12, 108)}px`)
+    scrollFrame = 0
+  })
+}
+
+function scrollToTop() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
+}
+
 watch(() => route.fullPath, () => { menuOpen.value = false })
+onMounted(() => { updateScroll(); window.addEventListener('scroll', updateScroll, { passive: true }) })
+onBeforeUnmount(() => { window.removeEventListener('scroll', updateScroll); if (scrollFrame) window.cancelAnimationFrame(scrollFrame) })
 
 useHead({ titleTemplate: (title) => title ? `${title}｜花火流明` : '花火流明｜靈性工作者與 VTuber' })
 useSeoMeta({
@@ -28,6 +50,9 @@ useSeoMeta({
         <a class="nav-cta" href="https://t.co/l2cqY5jxsU" target="_blank" rel="noopener">預約諮詢</a>
       </nav>
     </header>
+    <div v-if="route.path === '/'" :class="['scroll-magic', { visible: showHomeMagic }]" aria-hidden="true">
+      <span>✦</span><span>·</span><span>✧</span><span>✦</span><span>·</span><span>✧</span>
+    </div>
     <main><NuxtPage /></main>
     <footer class="site-footer">
       <NuxtLink class="footer-brand" to="/" aria-label="返回花火流明首頁">
@@ -37,5 +62,6 @@ useSeoMeta({
       <div class="footer-links"><a href="https://www.instagram.com/witch.lumen/">Instagram</a><a href="https://x.com/witch_lumen_TW">X</a><a href="https://www.youtube.com/@witch_lumen_TW">YouTube</a></div>
       <small>© 2026 Witch Lumen. All rights reserved.</small>
     </footer>
+    <Transition name="scroll-top-fade"><button v-if="showScrollTop" class="scroll-top" type="button" aria-label="回到頁面頂端" @click="scrollToTop"><span aria-hidden="true">↑</span><small>TOP</small></button></Transition>
   </div>
 </template>

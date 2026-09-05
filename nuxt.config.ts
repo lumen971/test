@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-07-15',
   devtools: { enabled: true },
   nitro: { preset: 'vercel' },
-  css: ['~/assets/css/main.css', '~/assets/css/brand-assets.css', '~/assets/css/hero-background.css', '~/assets/css/about-page.css', '~/assets/css/about-character.css', '~/assets/css/supporters-page.css', '~/assets/css/events-page.css', '~/assets/css/notion-content.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/brand-assets.css', '~/assets/css/hero-background.css', '~/assets/css/about-page.css', '~/assets/css/about-character.css', '~/assets/css/supporters-page.css', '~/assets/css/events-page.css', '~/assets/css/notion-content.css', '~/assets/css/scroll-effects.css'],
   runtimeConfig: {
     notionToken: '',
     notionArticlesDataSourceId: '',
