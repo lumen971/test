@@ -4,3 +4,5 @@ export interface ArticleSummary { id: string; title: string; slug: string; excer
 export interface ArticleDetail extends ArticleSummary { blocks: ArticleBlock[]; seoTitle?: string; seoDescription?: string; noIndex?: boolean }
 export interface SupporterGroup { tier: string; members: string[] }
 export interface SupporterMonth { month: string; label: string; message: string; groups: SupporterGroup[] }
+export interface SupporterProfile { id: string; name: string; supporterId: string; totalMonths: number; joinedAt?: string; lastSupported?: string; currentTier: string; highestTier?: string; emoji?: string; message?: string; badge: string; featured: boolean; order: number }
+export interface SupporterOverview { profiles: SupporterProfile[]; earliestMonth: string }

@@ -1,5 +1,5 @@
 import { Client } from '@notionhq/client'
-import type { ArticleBlock, ArticleDetail, ArticleSummary, RichTextSpan, SupporterMonth } from '../../shared/types/content'
+import type { ArticleBlock, ArticleDetail, ArticleSummary, RichTextSpan, SupporterMonth, SupporterOverview, SupporterProfile } from '../../shared/types/content'
 
 type NotionPage = Record<string, any>
 
@@ -129,19 +129,86 @@ export async function getArticle(client: Client, dataSourceId: string, slug: str
 
 export async function getLatestSupporters(client: Client, dataSourceId: string): Promise<SupporterMonth | null> {
   const resolvedId = await resolveDataSourceId(client, dataSourceId)
-  const pages = await listAll(client, resolvedId, {
+  const response: any = await client.dataSources.query({
+    data_source_id: resolvedId,
     filter: { property: 'Published', checkbox: { equals: true } },
-    sorts: [{ property: 'Month', direction: 'descending' }, { property: 'Order', direction: 'ascending' }]
+    sorts: [{ property: 'Month', direction: 'descending' }],
+    page_size: 1
   })
-  const latest = pages[0]?.properties?.Month?.date?.start?.slice(0, 7)
+  const latest = response.results?.[0]?.properties?.Month?.date?.start?.slice(0, 7)
   if (!latest) return null
-  const monthPages = pages.filter(page => page.properties?.Month?.date?.start?.startsWith(latest))
+  return getSupportersByMonth(client, resolvedId, latest, true)
+}
+
+function monthBounds(month: string) {
+  const [year, monthNumber] = month.split('-').map(Number)
+  const next = new Date(Date.UTC(year, monthNumber, 1))
+  return { start: `${month}-01`, end: next.toISOString().slice(0, 10) }
+}
+
+export async function getSupportersByMonth(client: Client, dataSourceId: string, month: string, resolved = false): Promise<SupporterMonth | null> {
+  const resolvedId = resolved ? dataSourceId : await resolveDataSourceId(client, dataSourceId)
+  const bounds = monthBounds(month)
+  const monthPages = await listAll(client, resolvedId, {
+    filter: { and: [
+      { property: 'Published', checkbox: { equals: true } },
+      { property: 'Month', date: { on_or_after: bounds.start } },
+      { property: 'Month', date: { before: bounds.end } }
+    ] },
+    sorts: [{ property: 'Order', direction: 'ascending' }]
+  })
+  if (!monthPages.length) return null
   const tierMap = new Map<string, string[]>()
   for (const page of monthPages) {
     const tier = page.properties?.Tier?.select?.name || '流明微光'
     const name = text(page.properties?.Name)
     if (name) tierMap.set(tier, [...(tierMap.get(tier) || []), name])
   }
-  const label = new Intl.DateTimeFormat('zh-TW', { year: 'numeric', month: 'long', timeZone: 'Asia/Taipei' }).format(new Date(`${latest}-01T00:00:00+08:00`))
-  return { month: latest, label, message: '謝謝每一道讓旅程得以延續的光。', groups: [...tierMap].map(([tier, members]) => ({ tier, members })) }
+  const label = new Intl.DateTimeFormat('zh-TW', { year: 'numeric', month: 'long', timeZone: 'Asia/Taipei' }).format(new Date(`${month}-01T00:00:00+08:00`))
+  return { month, label, message: '謝謝每一道讓旅程得以延續的光。', groups: [...tierMap].map(([tier, members]) => ({ tier, members })) }
+}
+
+function rollupNumber(property: any): number { return property?.rollup?.number ?? property?.number ?? 0 }
+function rollupDate(property: any): string | undefined { return property?.rollup?.date?.start || property?.date?.start || undefined }
+
+function earnedBadge(months: number): string {
+  if (months >= 36) return '不滅花火'
+  if (months >= 24) return '永續星芒'
+  if (months >= 12) return '一周年星辰'
+  if (months >= 6) return '長明燭火'
+  return '初燃微光'
+}
+
+function mapSupporterProfile(page: NotionPage): SupporterProfile {
+  const properties = page.properties || {}
+  const totalMonths = rollupNumber(properties['Total Months'])
+  return {
+    id: page.id,
+    name: text(properties.Name),
+    supporterId: text(properties['Supporter ID']),
+    totalMonths,
+    joinedAt: rollupDate(properties['Joined At']),
+    lastSupported: rollupDate(properties['Last Supported']),
+    currentTier: properties['Current Tier']?.select?.name || '流明微光',
+    highestTier: properties['Highest Tier']?.select?.name || undefined,
+    emoji: text(properties.Emoji) || undefined,
+    message: text(properties.Message) || undefined,
+    badge: properties.Badge?.select?.name || earnedBadge(totalMonths),
+    featured: properties.Featured?.checkbox || false,
+    order: properties.Order?.number ?? 9999
+  }
+}
+
+export async function getSupporterOverview(client: Client, dataSourceId: string): Promise<SupporterOverview> {
+  const resolvedId = await resolveDataSourceId(client, dataSourceId)
+  const pages = await listAll(client, resolvedId, {
+    filter: { property: 'Public', checkbox: { equals: true } },
+    sorts: [{ property: 'Order', direction: 'ascending' }]
+  })
+  const allProfiles = pages.map(mapSupporterProfile).filter(profile => profile.name)
+  const profiles = allProfiles
+    .filter(profile => profile.featured || profile.totalMonths >= 6)
+    .sort((a, b) => Number(b.featured) - Number(a.featured) || b.totalMonths - a.totalMonths || a.order - b.order)
+  const dates = allProfiles.map(profile => profile.joinedAt).filter((date): date is string => Boolean(date)).sort()
+  return { profiles, earliestMonth: dates[0]?.slice(0, 7) || new Date().toISOString().slice(0, 7) }
 }
