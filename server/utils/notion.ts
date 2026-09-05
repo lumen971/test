@@ -201,11 +201,11 @@ function mapSupporterProfile(page: NotionPage): SupporterProfile {
 
 export async function getSupporterOverview(client: Client, dataSourceId: string): Promise<SupporterOverview> {
   const resolvedId = await resolveDataSourceId(client, dataSourceId)
-  const pages = await listAll(client, resolvedId, {
-    filter: { property: 'Public', checkbox: { equals: true } },
-    sorts: [{ property: 'Order', direction: 'ascending' }]
-  })
-  const allProfiles = pages.map(mapSupporterProfile).filter(profile => profile.name)
+  const pages = await listAll(client, resolvedId, {})
+  const allProfiles = pages
+    .filter(page => page.properties?.Public?.checkbox === true)
+    .map(mapSupporterProfile)
+    .filter(profile => profile.name)
   const profiles = allProfiles
     .filter(profile => profile.featured || profile.totalMonths >= 6)
     .sort((a, b) => Number(b.featured) - Number(a.featured) || b.totalMonths - a.totalMonths || a.order - b.order)

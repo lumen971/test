@@ -13,7 +13,9 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { isr: 600 },
+    '/articles': { isr: 300 },
     '/articles/**': { isr: 300 },
+    '/supporters': { isr: 300 },
     '/supporters/**': { isr: 300 },
     '/api/**': { cors: false }
   },
