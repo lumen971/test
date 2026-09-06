@@ -22,6 +22,27 @@ const journey = [
   { school: '覺醒研究所＆秦芸殿天秦道學', title: '靈魂覺醒諮商講師認證・道學院正五品。秦星', text: '我學習到宇宙法則與內在探索的重要性，並將道學智慧融入靈性指導中，助人理清身心、重新與自我連結。' },
   { school: 'BlueStar 藍星身心靈整合療癒', title: '印加 Munay Ki 執行師・臼井／聖火 III 靈氣 大師階', text: '我接受了印加薩滿與守護者們的傳承與點化，學習使用聖火靈氣調節自身，並透過印加薩滿儀式和聖火靈氣來協助人們加強與自身的連結和感知。' }
 ]
+
+const threeViewOpen = ref(false)
+
+function closeThreeView() {
+  threeViewOpen.value = false
+}
+
+function handleEscape(event: KeyboardEvent) {
+  if (event.key === 'Escape') closeThreeView()
+}
+
+watch(threeViewOpen, (isOpen) => {
+  if (!import.meta.client) return
+  document.body.style.overflow = isOpen ? 'hidden' : ''
+})
+
+onMounted(() => window.addEventListener('keydown', handleEscape))
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', handleEscape)
+  document.body.style.overflow = ''
+})
 </script>
 
 <template>
@@ -44,7 +65,8 @@ const journey = [
     </section>
 
     <section class="about-content">
-      <aside class="profile-card">
+      <aside class="profile-sidebar">
+        <div class="profile-card">
         <p class="eyebrow">BASIC INFORMATION</p>
         <h2>角色檔案</h2>
         <dl>
@@ -53,6 +75,11 @@ const journey = [
           </template>
         </dl>
         <p class="profile-note">願每一位蠟燭與符紙，都能在這裡找到一點照亮自己的微光。</p>
+        </div>
+        <button class="three-view-preview" type="button" aria-label="放大查看花火流明角色三視圖" @click="threeViewOpen = true">
+          <img src="/images/hanabi-lumen-three-view.jpg" alt="花火流明角色正面、側面與背面三視圖" loading="lazy">
+          <span>VIEW CHARACTER SHEET　點擊放大</span>
+        </button>
       </aside>
 
       <div class="about-story">
@@ -81,6 +108,15 @@ const journey = [
         </section>
       </div>
     </section>
+
+    <Teleport to="body">
+      <Transition name="three-view-fade">
+        <div v-if="threeViewOpen" class="three-view-lightbox" role="dialog" aria-modal="true" aria-label="花火流明角色三視圖" @click.self="closeThreeView">
+          <button class="three-view-close" type="button" aria-label="關閉三視圖" @click="closeThreeView">×</button>
+          <img src="/images/hanabi-lumen-three-view.jpg" alt="花火流明角色正面、側面與背面三視圖">
+        </div>
+      </Transition>
+    </Teleport>
 
     <section class="belief-section">
       <p class="eyebrow">WHAT I BELIEVE</p>

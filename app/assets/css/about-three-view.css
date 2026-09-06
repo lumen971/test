@@ -1,0 +1,110 @@
+.profile-sidebar {
+  position: sticky;
+  top: 110px;
+  min-width: 0;
+}
+
+.profile-sidebar .profile-card {
+  position: static;
+}
+
+.three-view-preview {
+  position: relative;
+  width: 100%;
+  margin-top: 18px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(214, 184, 117, .24);
+  background: rgba(9, 21, 34, .72);
+  color: var(--gold);
+  cursor: zoom-in;
+  text-align: left;
+  transition: border-color .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+
+.three-view-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 58%, rgba(5, 13, 23, .84));
+  pointer-events: none;
+}
+
+.three-view-preview:hover,
+.three-view-preview:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(214, 184, 117, .58);
+  box-shadow: 0 14px 38px rgba(4, 11, 20, .34), 0 0 24px rgba(255, 0, 255, .09);
+  outline: none;
+}
+
+.three-view-preview img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2.05 / 1;
+  object-fit: cover;
+}
+
+.three-view-preview span {
+  position: absolute;
+  z-index: 1;
+  right: 14px;
+  bottom: 10px;
+  left: 14px;
+  font-size: 10px;
+  letter-spacing: .12em;
+}
+
+.three-view-lightbox {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 4vw, 56px);
+  background: rgba(2, 7, 13, .91);
+  backdrop-filter: blur(14px);
+  cursor: zoom-out;
+}
+
+.three-view-lightbox img {
+  display: block;
+  max-width: 96vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  border: 1px solid rgba(214, 184, 117, .38);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .58), 0 0 42px rgba(96, 53, 120, .2);
+  cursor: default;
+}
+
+.three-view-close {
+  position: fixed;
+  z-index: 1;
+  top: 20px;
+  right: 24px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(214, 184, 117, .4);
+  border-radius: 50%;
+  background: rgba(8, 20, 33, .8);
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.three-view-fade-enter-active,
+.three-view-fade-leave-active { transition: opacity .3s ease; }
+.three-view-fade-enter-from,
+.three-view-fade-leave-to { opacity: 0; }
+
+@media (max-width: 850px) {
+  .profile-sidebar { position: static; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .three-view-preview,
+  .three-view-fade-enter-active,
+  .three-view-fade-leave-active { transition: none; }
+}
