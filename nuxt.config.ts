@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-07-15',
   devtools: { enabled: true },
   nitro: { preset: 'vercel' },
-  css: ['@fortawesome/fontawesome-svg-core/styles.css', '~/assets/css/main.css', '~/assets/css/article-cover.css', '~/assets/css/brand-assets.css', '~/assets/css/hero-background.css', '~/assets/css/about-page.css', '~/assets/css/about-character.css', '~/assets/css/about-three-view.css', '~/assets/css/supporters-page.css', '~/assets/css/events-page.css', '~/assets/css/notion-content.css', '~/assets/css/scroll-effects.css'],
+  css: ['@fortawesome/fontawesome-svg-core/styles.css', '~/assets/css/main.css', '~/assets/css/article-cover.css', '~/assets/css/article-detail.css', '~/assets/css/brand-assets.css', '~/assets/css/hero-background.css', '~/assets/css/about-page.css', '~/assets/css/about-character.css', '~/assets/css/about-three-view.css', '~/assets/css/supporters-page.css', '~/assets/css/events-page.css', '~/assets/css/notion-content.css', '~/assets/css/scroll-effects.css'],
   runtimeConfig: {
     notionToken: '',
     notionArticlesDataSourceId: '',
@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     '/': { isr: 600 },
     '/articles': { isr: 300 },
     '/articles/**': { isr: 300 },
+    '/sitemap.xml': { cache: { maxAge: 3600 } },
     '/supporters': { isr: 300 },
     '/supporters/**': { isr: 300 },
     '/events': { isr: 3600 },

@@ -38,13 +38,16 @@ function dateLabel(value?: string): string {
 function mapSummary(page: NotionPage): ArticleSummary {
   const properties = page.properties || {}
   const coverProperty = propertyByName(properties, 'Cover')
+  const publishedAtIso = properties['Published At']?.date?.start || page.created_time
   return {
     id: page.id,
     title: text(properties.Title),
     slug: text(properties.Slug),
     excerpt: text(properties.Excerpt),
     category: properties.Category?.select?.name || '靈性札記',
-    publishedAt: dateLabel(properties['Published At']?.date?.start || page.created_time),
+    publishedAt: dateLabel(publishedAtIso),
+    publishedAtIso,
+    updatedAt: page.last_edited_time,
     cover: coverProperty?.url || fileUrl(coverProperty) || page.cover?.external?.url || page.cover?.file?.url
   }
 }

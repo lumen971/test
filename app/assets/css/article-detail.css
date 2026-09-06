@@ -1,0 +1,35 @@
+.article-back {
+  display: inline-flex;
+  margin-bottom: 34px;
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: .08em;
+}
+
+.article-hero-cover {
+  width: min(1040px, calc(100vw - 48px));
+  margin: 0 50% 54px;
+  transform: translateX(-50%);
+  overflow: hidden;
+  border: 1px solid rgba(214, 184, 117, .2);
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+}
+
+.article-hero-cover img {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  aspect-ratio: 16 / 8.5;
+  object-fit: cover;
+}
+
+.article-page > .eyebrow time { color: inherit; }
+
+@media (max-width: 600px) {
+  .article-hero-cover {
+    width: calc(100vw - 32px);
+    margin-bottom: 38px;
+  }
+
+  .article-hero-cover img { aspect-ratio: 4 / 3; }
+}
