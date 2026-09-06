@@ -59,7 +59,7 @@ useSeoMeta({
         <img class="footer-logo" src="/images/logo-full.png" alt="花火流明">
       </NuxtLink>
       <p>整理自身狀態，重新對齊你與世界的連結。</p>
-      <div class="footer-links"><a href="https://www.instagram.com/witch.lumen/">Instagram</a><a href="https://x.com/witch_lumen_TW">X</a><a href="https://www.youtube.com/@witch_lumen_TW">YouTube</a></div>
+      <div class="footer-links"><a href="https://www.twitch.tv/witch_lumen">Twitch</a><a href="https://www.instagram.com/witch.lumen/">Instagram</a><a href="https://x.com/witch_lumen_TW">X</a><a href="https://www.youtube.com/@witch_lumen_TW">YouTube</a></div>
       <small>© 2026 Witch Lumen. All rights reserved.</small>
     </footer>
     <Transition name="scroll-top-fade"><button v-if="showScrollTop" class="scroll-top" type="button" aria-label="回到頁面頂端" @click="scrollToTop"><span aria-hidden="true">↑</span><small>TOP</small></button></Transition>

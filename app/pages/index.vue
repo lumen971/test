@@ -31,6 +31,22 @@ const { data: supporters } = await useFetch<SupporterMonth>('/api/supporters/lat
       </div>
     </section>
 
+    <section class="vtuber-section" aria-labelledby="vtuber-title">
+      <div class="vtuber-portrait">
+        <div class="vtuber-orbit" aria-hidden="true">✦<span>☽</span></div>
+        <img src="/images/about-character.png" alt="VTuber 花火流明角色形象" loading="lazy">
+        <p>HANABI LUMEN · VIRTUAL WITCH</p>
+      </div>
+      <div class="vtuber-copy">
+        <p class="eyebrow">VIRTUAL WITCH · LIVE WITH LUMEN</p>
+        <h2 id="vtuber-title">在虛實之間，<br><em>一起點亮片刻的花火。</em></h2>
+        <p>除了靈性工作者，我也是來自台灣的人類女巫 VTuber。直播裡有閒聊、陪伴與不同主題的分享，願每一次相遇，都能成為日常裡溫柔的一點光。</p>
+        <div class="stream-schedule"><span aria-hidden="true">◉</span><div><small>REGULAR STREAM</small><strong>每週日下午 14:00</strong><p>主要直播平台 · Twitch</p></div></div>
+        <div class="vtuber-actions"><a class="button primary" href="https://www.twitch.tv/witch_lumen" target="_blank" rel="noopener">前往 Twitch</a><a class="button ghost" href="https://www.youtube.com/@witch_lumen_TW" target="_blank" rel="noopener">觀看 YouTube</a><NuxtLink class="vtuber-about-link" to="/about">認識花火流明　→</NuxtLink></div>
+        <dl class="vtuber-facts"><div><dt>FAN NAME</dt><dd>蠟燭／符紙</dd></div><div><dt>SYMBOL</dt><dd>🔮✨</dd></div><div><dt>BIRTHDAY</dt><dd>04.17</dd></div></dl>
+      </div>
+    </section>
+
     <section class="section">
       <div class="section-top"><SectionHeading eyebrow="LUMEN JOURNAL" title="靈感札記" description="關於能量、覺察與靈性生活的書寫。" /><NuxtLink to="/articles">查看所有文章 →</NuxtLink></div>
       <div class="article-grid"><article v-for="article in articles?.slice(0, 3)" :key="article.id" class="article-card"><ArticleCover :article="article" /><div><time>{{ article.publishedAt }}</time><h3>{{ article.title }}</h3><p>{{ article.excerpt }}</p><NuxtLink :to="`/articles/${article.slug}`">繼續閱讀 →</NuxtLink></div></article></div>
