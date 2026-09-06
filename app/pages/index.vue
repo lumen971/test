@@ -34,7 +34,7 @@ const { data: supporters } = await useFetch<SupporterMonth>('/api/supporters/lat
     <section class="vtuber-section" aria-labelledby="vtuber-title">
       <div class="vtuber-portrait">
         <div class="vtuber-orbit" aria-hidden="true">✦<span>☽</span></div>
-        <img src="/images/about-character.png" alt="VTuber 花火流明角色形象" loading="lazy">
+        <img class="vtuber-home-character" src="/images/vtuber-home-character.png" alt="花火流明 VTuber 角色正面形象" loading="lazy">
         <p>HANABI LUMEN · VIRTUAL WITCH</p>
       </div>
       <div class="vtuber-copy">

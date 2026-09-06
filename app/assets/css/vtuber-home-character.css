@@ -1,0 +1,24 @@
+.vtuber-portrait .vtuber-home-character {
+  width: min(470px, 92%);
+  max-height: 650px;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+@media (max-width: 900px) {
+  .vtuber-portrait .vtuber-home-character {
+    width: min(450px, 86vw);
+    max-height: 580px;
+  }
+}
+
+@media (max-width: 560px) {
+  .vtuber-portrait {
+    min-height: 430px;
+  }
+
+  .vtuber-portrait .vtuber-home-character {
+    width: min(390px, 94vw);
+    max-height: 500px;
+  }
+}
