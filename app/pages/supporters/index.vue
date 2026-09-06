@@ -112,6 +112,6 @@ async function loadHistory() {
       <div v-else class="support-tiers archive-tiers"><section v-for="group in historyData.groups" :key="group.tier" class="tier-card"><span>✦</span><h2>{{ group.tier }}</h2><ul><li v-for="member in group.members" :key="member">{{ member }}</li></ul></section></div>
     </section>
 
-    <p class="privacy-note">名單僅顯示同意公開的名稱；公開設定、稱呼與卡片內容皆可隨時在 Notion 調整。</p>
+    <p class="privacy-note">名單僅顯示同意公開的名稱，謝謝每一道願意被記錄的星光。</p>
   </div>
 </template>
