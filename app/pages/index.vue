@@ -25,9 +25,9 @@ const { data: supporters } = await useFetch<SupporterMonth>('/api/supporters/lat
     <section id="services" class="section tinted">
       <SectionHeading eyebrow="SPIRITUAL SERVICES" title="依照此刻的你，選擇適合的支持" description="先理解狀態，再決定是否介入。每項服務都從清楚的判讀開始。" />
       <div class="service-grid">
-        <article class="service-card"><span>01</span><div class="card-icon">◈</div><h3>能量狀態檢測</h3><p>釐清現況與影響層級，確認當下是否真的需要處理。</p><a href="https://t.co/l2cqY5jxsU">了解檢測方式 →</a></article>
-        <article class="service-card featured"><span>02</span><div class="card-icon">✧</div><h3>深層能量整理</h3><p>依照個案實際狀態，進行有邊界且具方向性的能量介入。</p><a href="https://t.co/l2cqY5jxsU">探索服務內容 →</a></article>
-        <article class="service-card"><span>03</span><div class="card-icon">☽</div><h3>會員長期維護</h3><p>每月穩定追蹤與校準，降低問題再次累積的可能。</p><a href="https://lumen.oen.tw/">查看會員方案 →</a></article>
+        <article class="service-card"><span>01</span><div class="card-icon">◈</div><h3>能量狀態檢測</h3><p>釐清現況與影響層級，確認當下是否真的需要處理。</p><NuxtLink to="/services#assessment">了解檢測方式 →</NuxtLink></article>
+        <article class="service-card featured"><span>02</span><div class="card-icon">✧</div><h3>深層能量整理</h3><p>依照個案實際狀態，進行有邊界且具方向性的能量介入。</p><NuxtLink to="/services#alignment">探索服務內容 →</NuxtLink></article>
+        <article class="service-card"><span>03</span><div class="card-icon">☽</div><h3>會員長期維護</h3><p>每月穩定追蹤與校準，降低問題再次累積的可能。</p><NuxtLink to="/services#membership">了解長期維護 →</NuxtLink></article>
       </div>
     </section>
 

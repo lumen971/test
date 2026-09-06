@@ -11,7 +11,7 @@ export default defineCachedEventHandler(async (event) => {
   const articles = config.notionToken && config.notionArticlesDataSourceId
     ? await getArticles(notionClient(config.notionToken), config.notionArticlesDataSourceId)
     : mockArticles
-  const staticPages = ['/', '/about', '/articles', '/events', '/supporters', '/2026-blessing-light']
+  const staticPages = ['/', '/about', '/services', '/articles', '/events', '/supporters', '/2026-blessing-light']
   const urls = [
     ...staticPages.map(path => ({ loc: `${siteUrl}${path}`, lastmod: undefined })),
     ...articles.map(article => ({ loc: `${siteUrl}/articles/${article.slug}`, lastmod: article.updatedAt || article.publishedAtIso }))
