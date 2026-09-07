@@ -15,8 +15,20 @@
 
 .article-card-link {
   display: block;
+  min-width: 0;
   cursor: pointer;
   transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+
+.article-card-link > div:last-child {
+  min-width: 0;
+}
+
+.article-card-link h2 {
+  max-width: 100%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 .article-card-link:hover {

@@ -129,9 +129,20 @@ export async function getArticle(client: Client, dataSourceId: string, slug: str
   const page = pages[0]
   if (!page) return null
   const properties = page.properties || {}
+  const relatedProperty = propertyByName(properties, 'Related Articles') || propertyByName(properties, '延伸閱讀')
+  const relatedIds = (relatedProperty?.relation || [])
+    .map((item: any) => item.id)
+    .filter((id: string) => id && id !== page.id)
+    .slice(0, 3)
+  const relatedPages = await Promise.all(relatedIds.map((id: string) => client.pages.retrieve({ page_id: id })))
+  const relatedArticles = relatedPages
+    .filter((relatedPage: any) => relatedPage.object === 'page' && relatedPage.properties?.Status?.status?.name === 'Published')
+    .map((relatedPage: any) => mapSummary(relatedPage))
+    .filter(item => item.title && item.slug)
   return {
     ...mapSummary(page),
     blocks: await children(client, page.id),
+    relatedArticles,
     seoTitle: text(properties['SEO Title']) || undefined,
     seoDescription: text(properties['SEO Description']) || undefined,
     noIndex: properties['No Index']?.checkbox || false

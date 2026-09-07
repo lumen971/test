@@ -56,15 +56,39 @@ useHead(() => ({
 </script>
 
 <template>
-  <article v-if="article" class="article-page">
-    <NuxtLink class="article-back" to="/articles">← 返回靈感札記</NuxtLink>
+  <article v-if="article" class="article-page article-detail-page">
     <figure v-if="article.cover" class="article-hero-cover">
       <img :src="article.cover" :alt="`${article.title}文章封面`" decoding="async">
     </figure>
-    <p class="eyebrow">{{ article.category }} · <time :datetime="article.publishedAtIso">{{ article.publishedAt }}</time></p>
-    <h1>{{ article.title }}</h1>
-    <p class="article-intro">{{ article.excerpt }}</p>
-    <NotionContent v-if="article.blocks.length" class="prose" :blocks="article.blocks" />
-    <div v-else class="prose"><p>這篇文章目前尚無內文。</p></div>
+
+    <div class="article-body">
+      <p class="eyebrow">{{ article.category }} · <time :datetime="article.publishedAtIso">{{ article.publishedAt }}</time></p>
+      <h1>{{ article.title }}</h1>
+      <p class="article-intro">{{ article.excerpt }}</p>
+      <NotionContent v-if="article.blocks.length" class="prose" :blocks="article.blocks" />
+      <div v-else class="prose"><p>這篇文章目前尚無內文。</p></div>
+    </div>
+
+    <aside v-if="article.relatedArticles?.length" class="related-articles" aria-labelledby="related-articles-title">
+      <p class="eyebrow">CONTINUE READING</p>
+      <h2 id="related-articles-title">延伸閱讀</h2>
+      <div class="article-grid related-article-grid">
+        <NuxtLink
+          v-for="related in article.relatedArticles"
+          :key="related.id"
+          class="article-card article-card-link"
+          :to="`/articles/${related.slug}`"
+          :aria-label="`閱讀文章：${related.title}`"
+        >
+          <ArticleCover :article="related" />
+          <div>
+            <time>{{ related.publishedAt }}</time>
+            <h3>{{ related.title }}</h3>
+            <p>{{ related.excerpt }}</p>
+            <span class="article-read-more" aria-hidden="true">繼續閱讀 →</span>
+          </div>
+        </NuxtLink>
+      </div>
+    </aside>
   </article>
 </template>

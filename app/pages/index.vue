@@ -49,7 +49,23 @@ const { data: supporters } = await useFetch<SupporterMonth>('/api/supporters/lat
 
     <section class="section">
       <div class="section-top"><SectionHeading eyebrow="LUMEN JOURNAL" title="靈感札記" description="關於能量、覺察與靈性生活的書寫。" /><NuxtLink to="/articles">查看所有文章 →</NuxtLink></div>
-      <div class="article-grid"><article v-for="article in articles?.slice(0, 3)" :key="article.id" class="article-card"><ArticleCover :article="article" /><div><time>{{ article.publishedAt }}</time><h3>{{ article.title }}</h3><p>{{ article.excerpt }}</p><NuxtLink :to="`/articles/${article.slug}`">繼續閱讀 →</NuxtLink></div></article></div>
+      <div class="article-grid">
+        <NuxtLink
+          v-for="article in articles?.slice(0, 3)"
+          :key="article.id"
+          class="article-card article-card-link"
+          :to="`/articles/${article.slug}`"
+          :aria-label="`閱讀文章：${article.title}`"
+        >
+          <ArticleCover :article="article" />
+          <div>
+            <time>{{ article.publishedAt }}</time>
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.excerpt }}</p>
+            <span class="article-read-more" aria-hidden="true">繼續閱讀 →</span>
+          </div>
+        </NuxtLink>
+      </div>
     </section>
 
     <section v-if="supporters" class="supporter-band">
