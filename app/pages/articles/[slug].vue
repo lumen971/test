@@ -15,6 +15,50 @@ const shareImage = computed(() => article.value?.cover || `${siteUrl}/og.png`)
 const articleTitle = computed(() => article.value?.seoTitle || article.value?.title || '靈感札記')
 const articleDescription = computed(() => article.value?.seoDescription || article.value?.excerpt || '')
 const socialArticleTitle = computed(() => `${articleTitle.value}｜花火流明`)
+const articleBody = ref<HTMLElement | null>(null)
+const readingProgress = ref(0)
+
+const articlePlainText = computed(() => {
+  const collectText = (blocks: ArticleDetail['blocks']): string => blocks
+    .map(block => [
+      block.richText?.map(span => span.text).join('') || '',
+      block.children?.length ? collectText(block.children) : ''
+    ].join(' '))
+    .join(' ')
+
+  return `${article.value?.title || ''} ${article.value?.excerpt || ''} ${collectText(article.value?.blocks || [])}`
+})
+
+const readingMinutes = computed(() => {
+  const content = articlePlainText.value
+  const chineseCharacters = (content.match(/[\u3400-\u9fff]/g) || []).length
+  const latinWords = content
+    .replace(/[\u3400-\u9fff]/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length
+
+  return Math.max(1, Math.ceil(chineseCharacters / 400 + latinWords / 200))
+})
+
+const updateReadingProgress = () => {
+  if (!articleBody.value) return
+
+  const start = articleBody.value.offsetTop
+  const distance = Math.max(articleBody.value.offsetHeight - window.innerHeight * .45, 1)
+  readingProgress.value = Math.min(100, Math.max(0, ((window.scrollY - start) / distance) * 100))
+}
+
+onMounted(() => {
+  updateReadingProgress()
+  window.addEventListener('scroll', updateReadingProgress, { passive: true })
+  window.addEventListener('resize', updateReadingProgress)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', updateReadingProgress)
+  window.removeEventListener('resize', updateReadingProgress)
+})
 
 useSeoMeta({
   title: () => articleTitle.value,
@@ -91,12 +135,22 @@ useHead(() => ({
 
 <template>
   <article v-if="article" class="article-page article-detail-page">
+    <div class="reading-progress" aria-hidden="true">
+      <span :style="{ transform: `scaleX(${readingProgress / 100})` }" />
+    </div>
+
     <figure v-if="article.cover" class="article-hero-cover">
       <img :src="article.cover" :alt="`${article.title}文章封面`" decoding="async">
     </figure>
 
-    <div class="article-body">
-      <p class="eyebrow">{{ article.category }} · <time :datetime="article.publishedAtIso">{{ article.publishedAt }}</time></p>
+    <div ref="articleBody" class="article-body">
+      <p class="eyebrow article-meta">
+        <span>{{ article.category }}</span>
+        <span aria-hidden="true">·</span>
+        <time :datetime="article.publishedAtIso">{{ article.publishedAt }}</time>
+        <span aria-hidden="true">·</span>
+        <span>約 {{ readingMinutes }} 分鐘閱讀</span>
+      </p>
       <h1>{{ article.title }}</h1>
       <p class="article-intro">{{ article.excerpt }}</p>
       <NotionContent v-if="article.blocks.length" class="prose" :blocks="article.blocks" />
