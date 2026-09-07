@@ -5,7 +5,13 @@ import { faStar, fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import type { SupporterMonth, SupporterOverview, SupporterProfile } from '../../../shared/types/content'
 
-useSeoMeta({ title: '星光名錄', description: '感謝每一位支持花火流明持續創作與提供靈性服務的贊助人，並收藏一路相伴的星光足跡。' })
+usePageSeo({
+  title: '星光名錄',
+  description: '感謝每一位支持花火流明持續創作與提供靈性服務的贊助人，收藏本月名單與一路相伴的星光足跡。',
+  path: '/supporters',
+  imageAlt: '花火流明星光支持者名錄',
+  schemaType: 'CollectionPage'
+})
 
 config.autoAddCss = false
 const freeSolidIcons = new Map<string, IconDefinition>(Object.values(fas).map(icon => [icon.iconName, icon]))

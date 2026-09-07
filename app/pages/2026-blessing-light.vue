@@ -1,8 +1,10 @@
 <script setup lang="ts">
-useSeoMeta({
+usePageSeo({
   title: '2026 新春祈福光明燈',
   description: '2026 新春祈福光明燈，透過光明燈寄放心願，讓燈光照亮心願。',
-  ogImage: '/events/2026-blessing-light/banner.jpg'
+  path: '/2026-blessing-light',
+  image: '/events/2026-blessing-light/banner.jpg',
+  imageAlt: '2026 新春祈福光明燈活動'
 })
 
 const lights = [

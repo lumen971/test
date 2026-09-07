@@ -1,18 +1,11 @@
 <script setup lang="ts">
-const config = useRuntimeConfig()
-const siteUrl = String(config.public.siteUrl || 'https://witchlumen.com').replace(/\/$/, '')
-
-useSeoMeta({
+usePageSeo({
   title: '靈性服務',
   description: '花火流明提供能量狀態檢測、深層能量整理與會員長期維護。先理解狀態，再決定是否需要介入。',
-  ogTitle: '靈性服務｜花火流明',
-  ogDescription: '從清楚的狀態判讀開始，選擇此刻真正需要的支持。',
-  ogUrl: `${siteUrl}/services`,
-  ogImage: `${siteUrl}/images/hero-luminous-lotus.jpg`,
-  twitterCard: 'summary_large_image'
+  socialTitle: '靈性服務｜花火流明',
+  path: '/services',
+  imageAlt: '花火流明能量狀態判讀與靈性服務'
 })
-
-useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/services` }] })
 
 const services = [
   {
@@ -58,6 +51,43 @@ const faqs = [
   ['服務前需要準備什麼？', '請在相對安靜、不受打擾的環境中參與，並如實提供預約表單需要的資訊。其他準備會在確認預約時說明。'],
   ['費用、時間與服務形式在哪裡確認？', '各項服務的最新費用、時間、名額與進行方式，會在預約入口或確認訊息中完整列出。']
 ]
+
+const seoConfig = useRuntimeConfig()
+const seoSiteUrl = String(seoConfig.public.siteUrl || 'https://witchlumen.com').replace(/\/$/, '')
+useHead({
+  script: [{
+    key: 'services-jsonld',
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'ItemList',
+          name: '花火流明靈性服務',
+          itemListElement: services.map((service, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            item: {
+              '@type': 'Service',
+              name: service.title,
+              description: service.lead,
+              url: `${seoSiteUrl}/services#${service.id}`,
+              provider: { '@id': `${seoSiteUrl}/#person` }
+            }
+          }))
+        },
+        {
+          '@type': 'FAQPage',
+          mainEntity: faqs.map(([question, answer]) => ({
+            '@type': 'Question',
+            name: question,
+            acceptedAnswer: { '@type': 'Answer', text: answer }
+          }))
+        }
+      ]
+    }).replace(/</g, '\\u003c')
+  }]
+})
 </script>
 
 <template>

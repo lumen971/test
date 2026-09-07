@@ -1,17 +1,10 @@
 <script setup lang="ts">
-const config = useRuntimeConfig()
-const siteUrl = String(config.public.siteUrl || 'https://witchlumen.com').replace(/\/$/, '')
-
-useSeoMeta({
+usePageSeo({
   title: '隱私權政策',
   description: '了解花火流明網站如何蒐集、使用、保存與保護訪客及服務使用者的個人資料。',
-  ogTitle: '隱私權政策｜花火流明',
-  ogDescription: '花火流明網站的個人資料蒐集、使用與權利說明。',
-  ogUrl: `${siteUrl}/privacy`,
-  robots: 'index, follow'
+  path: '/privacy',
+  imageAlt: '花火流明隱私權政策'
 })
-
-useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/privacy` }] })
 </script>
 
 <template>
@@ -89,7 +82,6 @@ useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/privacy` }] })
         <p>本政策可能因網站功能、合作服務或法令變動而調整，更新版本將公布於本頁並標示日期。若你對隱私權或個人資料處理有疑問，請透過本網站頁尾所列的官方社群或預約聯絡管道提出。</p>
       </section>
 
-      <p class="legal-notice">本政策為依目前網站功能整理的一般說明。若日後新增會員登入、電子報、網站內付款或其他資料處理功能，將於功能啟用時同步修訂。</p>
     </div>
   </div>
 </template>

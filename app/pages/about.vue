@@ -1,7 +1,10 @@
 <script setup lang="ts">
-useSeoMeta({
+usePageSeo({
   title: '關於花火流明',
-  description: '認識花火流明——結合 VTuber 創作、能量狀態判讀、薩滿療癒、聖火靈氣與芳療背景的靈性工作者。'
+  description: '認識花火流明——結合 VTuber 創作、能量狀態判讀、薩滿療癒、聖火靈氣與芳療背景的靈性工作者。',
+  path: '/about',
+  imageAlt: '花火流明角色形象與個人介紹',
+  schemaType: 'ProfilePage'
 })
 
 const profile = [

@@ -1,17 +1,10 @@
 <script setup lang="ts">
-const config = useRuntimeConfig()
-const siteUrl = String(config.public.siteUrl || 'https://witchlumen.com').replace(/\/$/, '')
-
-useSeoMeta({
+usePageSeo({
   title: '服務條款',
   description: '花火流明網站及靈性服務的使用條款、預約原則、服務界線與智慧財產權說明。',
-  ogTitle: '服務條款｜花火流明',
-  ogDescription: '使用花火流明網站與預約相關服務前，請閱讀本服務條款。',
-  ogUrl: `${siteUrl}/terms`,
-  robots: 'index, follow'
+  path: '/terms',
+  imageAlt: '花火流明服務條款'
 })
-
-useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/terms` }] })
 </script>
 
 <template>
@@ -94,7 +87,6 @@ useHead({ link: [{ rel: 'canonical', href: `${siteUrl}/terms` }] })
         <p>若你對本條款、預約或服務有疑問，請透過本網站頁尾所列的官方社群或預約聯絡管道與我們聯繫。</p>
       </section>
 
-      <p class="legal-notice">本頁為依目前網站與服務型態整理的一般條款範本，不取代針對特定營業模式的專業法律意見。若未來加入網站內付款、訂閱、數位商品或跨境銷售，應再依實際流程檢視與更新。</p>
     </div>
   </div>
 </template>

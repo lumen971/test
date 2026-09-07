@@ -2,6 +2,12 @@
 import type { ArticleSummary, SupporterMonth } from '../../shared/types/content'
 const { data: articles } = await useFetch<ArticleSummary[]>('/api/articles')
 const { data: supporters } = await useFetch<SupporterMonth>('/api/supporters/latest')
+
+usePageSeo({
+  description: '花火流明是來自台灣的靈性工作者與 VTuber，提供能量狀態判讀、深層能量整理、靈性文章與直播陪伴。',
+  path: '/',
+  imageAlt: '花火流明官方網站｜靈性工作者與 VTuber'
+})
 </script>
 
 <template>

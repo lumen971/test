@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
+const runtimeConfig = useRuntimeConfig()
+const siteUrl = String(runtimeConfig.public.siteUrl || 'https://witchlumen.com').replace(/\/$/, '')
 const menuOpen = ref(false)
 const scrollY = ref(0)
 const showScrollTop = computed(() => scrollY.value > 520)
@@ -25,12 +27,54 @@ watch(() => route.fullPath, () => { menuOpen.value = false })
 onMounted(() => { updateScroll(); window.addEventListener('scroll', updateScroll, { passive: true }) })
 onBeforeUnmount(() => { window.removeEventListener('scroll', updateScroll); if (scrollFrame) window.cancelAnimationFrame(scrollFrame) })
 
-useHead({ titleTemplate: (title) => title ? `${title}｜花火流明` : '花火流明｜靈性工作者與 VTuber' })
+useHead(() => ({
+  titleTemplate: (title) => title ? `${title}｜花火流明` : '花火流明｜靈性工作者與 VTuber',
+  link: [{ key: 'canonical', rel: 'canonical', href: `${siteUrl}${route.path === '/' ? '' : route.path}` }],
+  script: [{
+    key: 'site-identity-jsonld',
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': `${siteUrl}/#website`,
+          url: siteUrl,
+          name: '花火流明',
+          alternateName: 'Witch Lumen',
+          inLanguage: 'zh-Hant-TW',
+          publisher: { '@id': `${siteUrl}/#person` }
+        },
+        {
+          '@type': 'Person',
+          '@id': `${siteUrl}/#person`,
+          name: '花火流明',
+          alternateName: ['Witch Lumen', 'Hanabi Lumen'],
+          url: siteUrl,
+          image: `${siteUrl}/images/about-character.png`,
+          jobTitle: ['靈性工作者', 'VTuber'],
+          sameAs: [
+            'https://www.twitch.tv/witch_lumen',
+            'https://www.youtube.com/@witch_lumen_TW',
+            'https://x.com/witch_lumen_TW',
+            'https://www.instagram.com/witch.lumen/'
+          ],
+          knowsAbout: ['能量狀態判讀', '深層能量整理', '芳療', '靈氣', 'VTuber 創作']
+        }
+      ]
+    }).replace(/</g, '\\u003c')
+  }]
+}))
 useSeoMeta({
   description: '花火流明的靈性工作室。透過能量狀態判讀、儀式與深度覺察，陪伴你重新對齊自身與世界的連結。',
   ogType: 'website',
-  ogImage: '/images/hero-luminous-lotus.jpg',
-  twitterCard: 'summary_large_image'
+  ogSiteName: '花火流明',
+  ogLocale: 'zh_TW',
+  ogImage: `${siteUrl}/og.png`,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  twitterCard: 'summary_large_image',
+  twitterImage: `${siteUrl}/og.png`
 })
 </script>
 

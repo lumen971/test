@@ -1,5 +1,11 @@
 <script setup lang="ts">
-useSeoMeta({ title: '過往活動', description: '收藏花火流明曾舉辦的靈性企劃、季節儀式與 VTuber 特別活動。' })
+usePageSeo({
+  title: '過往活動',
+  description: '收藏花火流明曾舉辦的靈性企劃、季節儀式、祈福活動與 VTuber 特別企劃。',
+  path: '/events',
+  imageAlt: '花火流明過往活動與季節儀式',
+  schemaType: 'CollectionPage'
+})
 </script>
 
 <template>
