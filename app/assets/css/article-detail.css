@@ -27,7 +27,9 @@
 }
 
 .article-hero-cover {
+  position: relative;
   width: 100%;
+  height: clamp(330px, 42vw, 620px);
   margin: 0;
   overflow: hidden;
   border-bottom: 1px solid rgba(214, 184, 117, .2);
@@ -36,9 +38,27 @@
 
 .article-hero-cover img {
   display: block;
-  width: 100%;
-  height: clamp(330px, 42vw, 620px);
+  height: 100%;
   object-fit: cover;
+}
+
+.article-hero-cover-backdrop {
+  position: absolute;
+  inset: -24px;
+  width: calc(100% + 48px);
+  max-width: none;
+  opacity: .48;
+  filter: blur(24px) saturate(.82) brightness(.58);
+  transform: scale(1.04);
+}
+
+.article-hero-cover-image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  box-shadow: 0 0 55px rgba(3, 9, 17, .48);
 }
 
 .article-body {
@@ -275,7 +295,7 @@
     top: 67px;
   }
 
-  .article-hero-cover img {
+  .article-hero-cover {
     height: clamp(280px, 55vw, 460px);
   }
 
@@ -289,7 +309,7 @@
     padding-top: 68px;
   }
 
-  .article-hero-cover img {
+  .article-hero-cover {
     height: 68vw;
     min-height: 250px;
   }

@@ -170,7 +170,8 @@ useHead(() => ({
     </div>
 
     <figure v-if="article.cover" class="article-hero-cover">
-      <img :src="article.cover" :alt="`${article.title}文章封面`" decoding="async">
+      <img class="article-hero-cover-backdrop" :src="article.cover" alt="" aria-hidden="true" decoding="async">
+      <img class="article-hero-cover-image" :src="article.cover" :alt="`${article.title}文章封面`" decoding="async" fetchpriority="high">
     </figure>
 
     <div ref="articleBody" class="article-body">

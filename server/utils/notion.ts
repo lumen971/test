@@ -81,6 +81,11 @@ async function children(client: Client, blockId: string): Promise<ArticleBlock[]
       mapped.url = value.file?.url || value.external?.url
       mapped.caption = value.caption?.map((item: any) => item.plain_text).join('')
     }
+    if (block.type === 'video') {
+      mapped.url = value.file?.url || value.external?.url
+      mapped.caption = value.caption?.map((item: any) => item.plain_text).join('')
+    }
+    if (block.type === 'embed') mapped.url = value.url
     if (block.type === 'to_do') mapped.checked = value.checked
     if (block.type === 'code') mapped.language = value.language
     if (block.has_children) mapped.children = await children(client, block.id)

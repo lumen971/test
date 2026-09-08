@@ -4,6 +4,28 @@ defineProps<{ blocks: ArticleBlock[] }>()
 
 const text = (spans?: RichTextSpan[]) => spans?.map(span => span.text).join('') || ''
 const headingId = (block: ArticleBlock) => `section-${block.id.replace(/[^a-zA-Z0-9_-]/g, '')}`
+
+const youtubeEmbedUrl = (url?: string) => {
+  if (!url) return undefined
+
+  try {
+    const parsed = new URL(url)
+    const hostname = parsed.hostname.replace(/^www\./, '')
+    let videoId = ''
+
+    if (hostname === 'youtu.be') videoId = parsed.pathname.split('/').filter(Boolean)[0] || ''
+    if (hostname === 'youtube.com' || hostname === 'm.youtube.com' || hostname === 'music.youtube.com') {
+      if (parsed.pathname === '/watch') videoId = parsed.searchParams.get('v') || ''
+      else if (/^\/(embed|shorts|live)\//.test(parsed.pathname)) videoId = parsed.pathname.split('/')[2] || ''
+    }
+
+    return /^[a-zA-Z0-9_-]{6,}$/.test(videoId)
+      ? `https://www.youtube-nocookie.com/embed/${videoId}`
+      : undefined
+  } catch {
+    return undefined
+  }
+}
 </script>
 
 <template>
@@ -25,7 +47,62 @@ const headingId = (block: ArticleBlock) => `section-${block.id.replace(/[^a-zA-Z
       <pre v-else-if="block.type === 'code'"><code>{{ text(block.richText) }}</code></pre>
       <hr v-else-if="block.type === 'divider'">
       <figure v-else-if="block.type === 'image' && block.url"><img :src="block.url" :alt="block.caption || ''"><figcaption v-if="block.caption">{{ block.caption }}</figcaption></figure>
+      <figure v-else-if="['video', 'embed'].includes(block.type) && youtubeEmbedUrl(block.url)" class="notion-video">
+        <div class="notion-video-frame">
+          <iframe
+            :src="youtubeEmbedUrl(block.url)"
+            :title="block.caption || 'YouTube 影片播放器'"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          />
+        </div>
+        <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
+      </figure>
+      <figure v-else-if="block.type === 'video' && block.url" class="notion-video">
+        <video :src="block.url" controls preload="metadata" playsinline />
+        <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
+      </figure>
       <NotionContent v-if="block.children?.length" :blocks="block.children" />
     </template>
   </div>
 </template>
+
+<style scoped>
+.notion-video {
+  margin: clamp(1.75rem, 4vw, 3rem) 0;
+}
+
+.notion-video-frame {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid color-mix(in srgb, #d6b875 55%, transparent);
+  border-radius: 1rem;
+  background: #0b1020;
+  box-shadow: 0 1.25rem 3rem rgb(12 18 38 / 24%);
+}
+
+.notion-video-frame iframe,
+.notion-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.notion-video video {
+  max-height: 75vh;
+  border-radius: 1rem;
+  background: #0b1020;
+}
+
+.notion-video figcaption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.72;
+}
+</style>
