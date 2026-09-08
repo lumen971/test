@@ -1,0 +1,4 @@
+Contact: mailto:vtb.lumen@gmail.com
+Preferred-Languages: zh-TW, en
+Canonical: https://witchlumen.com/.well-known/security.txt
+Expires: 2027-09-01T00:00:00Z
