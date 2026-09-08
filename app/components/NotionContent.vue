@@ -3,14 +3,15 @@ import type { ArticleBlock, RichTextSpan } from '../../shared/types/content'
 defineProps<{ blocks: ArticleBlock[] }>()
 
 const text = (spans?: RichTextSpan[]) => spans?.map(span => span.text).join('') || ''
+const headingId = (block: ArticleBlock) => `section-${block.id.replace(/[^a-zA-Z0-9_-]/g, '')}`
 </script>
 
 <template>
   <div class="notion-content">
     <template v-for="block in blocks" :key="block.id">
-      <h2 v-if="block.type === 'heading_1'">{{ text(block.richText) }}</h2>
-      <h3 v-else-if="block.type === 'heading_2'">{{ text(block.richText) }}</h3>
-      <h4 v-else-if="block.type === 'heading_3'">{{ text(block.richText) }}</h4>
+      <h2 v-if="block.type === 'heading_1'" :id="headingId(block)">{{ text(block.richText) }}</h2>
+      <h3 v-else-if="block.type === 'heading_2'" :id="headingId(block)">{{ text(block.richText) }}</h3>
+      <h4 v-else-if="block.type === 'heading_3'" :id="headingId(block)">{{ text(block.richText) }}</h4>
       <p v-else-if="block.type === 'paragraph'">
         <template v-for="(span, index) in block.richText" :key="index">
           <a v-if="span.href" :href="span.href" target="_blank" rel="noopener" :class="{ bold: span.bold, italic: span.italic, code: span.code }">{{ span.text }}</a>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ArticleDetail } from '../../../shared/types/content'
+import type { ArticleBlock, ArticleDetail } from '../../../shared/types/content'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -39,6 +39,36 @@ const readingMinutes = computed(() => {
     .filter(Boolean).length
 
   return Math.max(1, Math.ceil(chineseCharacters / 400 + latinWords / 200))
+})
+
+interface TableOfContentsItem {
+  id: string
+  title: string
+  level: number
+}
+
+const tableOfContents = computed<TableOfContentsItem[]>(() => {
+  const items: TableOfContentsItem[] = []
+
+  const collectHeadings = (blocks: ArticleBlock[]) => {
+    for (const block of blocks) {
+      if (['heading_1', 'heading_2', 'heading_3'].includes(block.type)) {
+        const title = block.richText?.map(span => span.text).join('').trim() || ''
+        if (title) {
+          items.push({
+            id: `section-${block.id.replace(/[^a-zA-Z0-9_-]/g, '')}`,
+            title,
+            level: Number(block.type.slice(-1))
+          })
+        }
+      }
+
+      if (block.children?.length) collectHeadings(block.children)
+    }
+  }
+
+  collectHeadings(article.value?.blocks || [])
+  return items.length >= 3 ? items : []
 })
 
 const updateReadingProgress = () => {
@@ -153,6 +183,15 @@ useHead(() => ({
       </p>
       <h1>{{ article.title }}</h1>
       <p class="article-intro">{{ article.excerpt }}</p>
+      <nav v-if="tableOfContents.length" class="article-toc" aria-labelledby="article-toc-title">
+        <p class="article-toc-eyebrow">IN THIS ARTICLE</p>
+        <h2 id="article-toc-title">本文目錄</h2>
+        <ol>
+          <li v-for="item in tableOfContents" :key="item.id" :class="`toc-level-${item.level}`">
+            <a :href="`#${item.id}`">{{ item.title }}</a>
+          </li>
+        </ol>
+      </nav>
       <NotionContent v-if="article.blocks.length" class="prose" :blocks="article.blocks" />
       <div v-else class="prose"><p>這篇文章目前尚無內文。</p></div>
     </div>

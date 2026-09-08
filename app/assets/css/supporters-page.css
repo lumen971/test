@@ -2,7 +2,8 @@
 .supporter-hall, .current-supporters, .supporter-archive { margin-top: 90px; }
 .supporter-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 36px; }
 .supporter-section-heading h2 { margin: 8px 0 0; font-family: var(--serif); font-size: clamp(30px, 4vw, 46px); color: #f1e7d2; }
-.supporter-section-heading > p { max-width: 500px; margin: 0; color: var(--muted); }
+.supporters-page > .section-heading p { color: #b8c6d1; }
+.supporter-section-heading > p { max-width: 500px; margin: 0; color: #b8c6d1; }
 .supporter-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .supporter-card { --card-glow: 52,92,128; position: relative; overflow: hidden; min-height: 340px; padding: 30px; border: 1px solid rgba(var(--card-glow),.42); background: linear-gradient(145deg,rgba(var(--card-glow),.2),rgba(9,20,33,.96) 68%); box-shadow: inset 0 0 32px rgba(var(--card-glow),.05); transition: transform .45s cubic-bezier(.2,.75,.25,1),border-color .45s ease,box-shadow .55s ease; }
 .supporter-card:before { content: ''; position: absolute; inset: -45%; background: conic-gradient(from 80deg,transparent,rgba(var(--card-glow),.13),transparent 30%); animation: starlight-turn 18s linear infinite; pointer-events: none; }
@@ -17,13 +18,13 @@
 .card-constellation { position: absolute; right: 24px; top: 70px; color: rgba(var(--card-glow),.27); font-size: 18px; letter-spacing: .35em; transform: rotate(-14deg); }
 .supporter-card-top, .supporter-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .supporter-emoji { width: 40px; height: 40px; display: grid; place-items: center; font-size: 30px; color: var(--gold); filter: drop-shadow(0 0 8px rgba(var(--card-glow),.65)); }
-.supporter-badge { padding: 4px 11px; border: 1px solid rgba(var(--card-glow),.55); color: rgb(var(--card-glow)); background: rgba(7,16,27,.45); font-size: 11px; letter-spacing: .08em; }
+.supporter-badge { padding: 4px 11px; border: 1px solid rgba(var(--card-glow),.62); color: #d7e1e9; background: rgba(7,16,27,.68); font-size: 11px; letter-spacing: .08em; }
 .supporter-card h3 { margin: 30px 0 12px; font-family: var(--serif); font-size: 27px; color: #f3ead8; }
-.supporter-message { min-height: 58px; color: #aebdca; font-size: 14px; }
-.supporter-meta { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(var(--card-glow),.2); font-size: 12px; color: var(--muted); }
+.supporter-message { min-height: 58px; color: #c3cfd9; font-size: 14px; }
+.supporter-meta { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(var(--card-glow),.24); font-size: 12px; color: #afbfcc; }
 .supporter-meta b { color: var(--gold); font-size: 19px; }
 .milestone { margin-top: 20px; }
-.milestone > div:first-child { display: flex; justify-content: space-between; gap: 12px; color: #8195a7; font-size: 10px; letter-spacing: .06em; }
+.milestone > div:first-child { display: flex; justify-content: space-between; gap: 12px; color: #9fb2c2; font-size: 10px; letter-spacing: .06em; }
 .milestone-track { height: 3px; margin-top: 8px; overflow: hidden; background: rgba(255,255,255,.08); }
 .milestone-track span { display: block; height: 100%; background: linear-gradient(90deg,rgb(var(--card-glow)),var(--gold)); box-shadow: 0 0 12px rgba(var(--card-glow),.8); transition: width .6s ease; }
 .current-supporters { padding-top: 70px; border-top: 1px solid rgba(214,184,117,.15); }
@@ -31,7 +32,7 @@
 .month-picker { display: flex; align-items: center; gap: 16px; color: var(--gold); font-size: 13px; letter-spacing: .08em; }
 .month-picker select { min-width: 190px; padding: 11px 38px 11px 14px; border: 1px solid rgba(214,184,117,.38); border-radius: 0; background: #0d1c2c; color: var(--ink); font: inherit; }
 .archive-tiers { margin-top: 34px; }
-.archive-status { padding: 40px 0; text-align: center; color: var(--muted); }
+.archive-status { padding: 40px 0; text-align: center; color: #b5c4d0; }
 @keyframes starlight-turn { to { transform: rotate(360deg); } }
 @keyframes line-breathe { 0%,100% { opacity: .48; filter: drop-shadow(0 0 4px rgba(var(--card-glow),.42)); } 50% { opacity: .9; filter: drop-shadow(0 0 9px rgba(var(--card-glow),.72)); } }
 @media (hover: hover) { .supporter-card:hover { transform: translateY(-3px); border-color: rgba(var(--card-glow),.62); box-shadow: 0 16px 42px rgba(2,8,16,.24),0 0 24px rgba(var(--card-glow),.07),inset 0 0 34px rgba(var(--card-glow),.07); } .supporter-card:hover:after { opacity: .72; animation: line-breathe 3.2s ease-in-out infinite; } }
