@@ -10,7 +10,7 @@ usePageSeo({
 
 <template>
   <div class="page-wrap events-index">
-    <SectionHeading eyebrow="PAST RITUALS & EVENTS" title="過往活動" description="每一次相聚，都是時間裡留下的一束光。這裡收藏曾經舉辦的季節儀式、祈福企劃與特別活動。" />
+    <SectionHeading as="h1" eyebrow="PAST RITUALS & EVENTS" title="過往活動" description="每一次相聚，都是時間裡留下的一束光。這裡收藏曾經舉辦的季節儀式、祈福企劃與特別活動。" />
     <div class="event-grid">
       <NuxtLink class="event-card" to="/2026-blessing-light">
         <div class="event-card-image"><img src="/events/2026-blessing-light/banner.jpg" alt="2026 新春祈福光明燈"></div>

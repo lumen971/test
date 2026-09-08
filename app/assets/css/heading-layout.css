@@ -5,6 +5,19 @@ h2 {
   overflow-wrap: normal;
 }
 
+.section-heading-title {
+  font-family: var(--serif);
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 14px 0;
+}
+
+.hero h1 > span,
+.hero h1 > em {
+  display: block;
+}
+
 /* Large two-tone hero headings need enough horizontal room for each line. */
 .hero-copy,
 .services-hero-copy,
@@ -30,5 +43,20 @@ h2 {
   h2 {
     word-break: normal;
     overflow-wrap: anywhere;
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero h1 {
+    font-size: clamp(27px, 8.3vw, 34px);
+    letter-spacing: .015em;
+  }
+
+  .hero h1 > span,
+  .hero h1 > em {
+    white-space: nowrap;
   }
 }

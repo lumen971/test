@@ -15,6 +15,7 @@ const { data: articles } = await useFetch<ArticleSummary[]>('/api/articles')
 <template>
   <div class="page-wrap">
     <SectionHeading
+      as="h1"
       eyebrow="LUMEN JOURNAL"
       title="靈感札記"
       description="在日常裡練習覺察，在文字裡收藏光。新的書寫將持續在此與你相遇。"

@@ -84,7 +84,7 @@ async function loadHistory() {
 
 <template>
   <div class="page-wrap supporters-page">
-    <SectionHeading eyebrow="STARDUST SUPPORTERS" title="星光名錄" description="每一道微光，都在花火流明的旅程中留下獨一無二的軌跡。" />
+    <SectionHeading as="h1" eyebrow="STARDUST SUPPORTERS" title="星光名錄" description="每一道微光，都在花火流明的旅程中留下獨一無二的軌跡。" />
 
     <section v-if="overview?.profiles.length" class="supporter-hall" aria-labelledby="hall-title">
       <div class="supporter-section-heading">

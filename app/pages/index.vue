@@ -16,7 +16,7 @@ usePageSeo({
       <div class="hero-bg" aria-hidden="true" />
       <div class="hero-copy">
         <p class="eyebrow">SPIRITUAL WORKER · VTUBER</p>
-        <h1>在星光與靈魂之間，<br><em>找回你的內在座標。</em></h1>
+        <h1><span>在星光與靈魂之間，</span><em>找回你的內在座標。</em></h1>
         <p class="hero-lead">我是花火流明，一名以能量狀態判讀與深層整理為核心的靈性工作者，也是一位在虛實之間傳遞微光的 VTuber。</p>
         <div class="hero-actions"><a class="button primary" href="https://t.co/l2cqY5jxsU">開始能量檢測</a><NuxtLink class="button ghost" to="/articles">閱讀靈感札記</NuxtLink></div>
       </div>
