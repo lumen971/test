@@ -18,7 +18,7 @@
 .card-constellation { position: absolute; right: 24px; top: 70px; color: rgba(var(--card-glow),.27); font-size: 18px; letter-spacing: .35em; transform: rotate(-14deg); }
 .supporter-card-top, .supporter-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .supporter-emoji { width: 40px; height: 40px; display: grid; place-items: center; font-size: 30px; color: var(--gold); filter: drop-shadow(0 0 8px rgba(var(--card-glow),.65)); }
-.supporter-badge { padding: 4px 11px; border: 1px solid rgba(var(--card-glow),.62); color: #d7e1e9; background: rgba(7,16,27,.68); font-size: 11px; letter-spacing: .08em; }
+.supporter-badge { padding: 4px 11px; border: 1px solid rgba(var(--card-glow),.72); color: #d7e1e9; color: color-mix(in srgb,rgb(var(--card-glow)) 72%,white); background: rgba(7,16,27,.68); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-shadow: 0 0 10px rgba(var(--card-glow),.3); }
 .supporter-card h3 { margin: 30px 0 12px; font-family: var(--serif); font-size: 27px; color: #f3ead8; }
 .supporter-message { min-height: 58px; color: #c3cfd9; font-size: 14px; }
 .supporter-meta { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(var(--card-glow),.24); font-size: 12px; color: #afbfcc; }
