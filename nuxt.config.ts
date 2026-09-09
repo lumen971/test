@@ -39,6 +39,22 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&family=Noto+Serif+TC:wght@500;600;700&display=swap' }
+      ],
+      script: [
+        {
+          key: 'google-analytics',
+          src: 'https://www.googletagmanager.com/gtag/js?id=G-2GV3962T6T',
+          async: true
+        },
+        {
+          key: 'google-analytics-config',
+          innerHTML: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-2GV3962T6T');
+          `
+        }
       ]
     }
   }
