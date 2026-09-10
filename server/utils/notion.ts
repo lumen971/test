@@ -35,6 +35,15 @@ function dateLabel(value?: string): string {
   return new Intl.DateTimeFormat('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Taipei' }).format(new Date(value)).replaceAll('/', '.')
 }
 
+function normalizeSlug(value: string): string {
+  return value
+    .trim()
+    .toLocaleLowerCase('en-US')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
 function mapSummary(page: NotionPage): ArticleSummary {
   const properties = page.properties || {}
   const coverProperty = propertyByName(properties, 'Cover')
@@ -42,7 +51,7 @@ function mapSummary(page: NotionPage): ArticleSummary {
   return {
     id: page.id,
     title: text(properties.Title),
-    slug: text(properties.Slug),
+    slug: normalizeSlug(text(properties.Slug)),
     excerpt: text(properties.Excerpt),
     category: properties.Category?.select?.name || '靈性札記',
     publishedAt: dateLabel(publishedAtIso),
@@ -125,13 +134,10 @@ export async function getArticles(client: Client, dataSourceId: string): Promise
 export async function getArticle(client: Client, dataSourceId: string, slug: string): Promise<ArticleDetail | null> {
   const resolvedId = await resolveDataSourceId(client, dataSourceId)
   const pages = await listAll(client, resolvedId, {
-    filter: { and: [
-      { property: 'Status', status: { equals: 'Published' } },
-      { property: 'Slug', rich_text: { equals: slug } }
-    ] },
-    page_size: 1
+    filter: { property: 'Status', status: { equals: 'Published' } }
   })
-  const page = pages[0]
+  const requestedSlug = normalizeSlug(slug)
+  const page = pages.find(item => normalizeSlug(text(item.properties?.Slug)) === requestedSlug)
   if (!page) return null
   const properties = page.properties || {}
   const relatedProperty = propertyByName(properties, 'Related Articles') || propertyByName(properties, '延伸閱讀')
